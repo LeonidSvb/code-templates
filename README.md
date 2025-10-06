@@ -1,6 +1,6 @@
 # Code Templates - Leo's Project Starter Kit
 
-**Quick Start:** [QUICK-START.md](QUICK-START.md)
+**Quick Start:** [QUICK-START.md](QUICK-START.md) | **Changelog:** [CHANGELOG.md](CHANGELOG.md)
 
 ---
 
@@ -55,8 +55,12 @@ cat rules/typescript.md >> ./CLAUDE.md
 
 ### `workflows/` - Work Processes
 - `sprints.md` - Sprint structure (emoji statuses, tasks)
-- `changelog-guide.md` - Keep a Changelog standard
-- `git-commits.md` - Commit messages, branching
+- `naming-conventions.md` - File and folder naming standards
+- `adr-template.md` - Architecture Decision Records template
+- `prd-template.md` - Product Requirements Document template
+- `task-template.md` - Task template for sprints
+- `architecture/` - Architecture philosophy and standards
+- `guides/` - Implementation guides (analytics, Excel, HTML, MCP)
 
 ### `snippets/` - Reusable Modules
 **Ready code - copy and use:**
@@ -111,18 +115,15 @@ cp base/.gitignore ./.gitignore
 
 ## Naming Conventions
 
-**Files and folders:**
+**See full guide:** [workflows/naming-conventions.md](workflows/naming-conventions.md)
+
+**Quick reference:**
 - **Python:** `snake_case` (modules, scripts)
 - **Next.js:** `kebab-case` (components, pages)
 - **Documentation:** `kebab-case` (all .md files)
 - **React Components:** `PascalCase.tsx`
-
-**Sprints:**
-- Format: `01-sprint-name/`, `02-sprint-name/`
-
-**Tasks:**
-- Format: `001-⏸️-task-name.md`, `002-▶️-task-name.md`
-- Status: ⏸️ Pending, ▶️ In Progress, ✅ Done
+- **Sprints:** `01-sprint-name/`, `02-sprint-name/`
+- **Tasks:** `001-task-name.md` (without emoji in filename)
 
 ---
 
