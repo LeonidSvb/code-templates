@@ -64,7 +64,9 @@ cat rules/typescript.md >> ./CLAUDE.md
 
 ### `snippets/` - Reusable Modules
 **Ready code - copy and use:**
-- `logging/` - Universal logger (Python)
+- `logging/` - **Universal logger** (Python, Node.js, Next.js) ⭐ NEW
+  - `universal_logger.py` - Production-ready logger
+  - `UNIVERSAL-LOGGER.md` - Complete docs with examples
 - `supabase-auth/` - Supabase SSR setup
 - `api-wrappers/` - API clients
 
@@ -72,6 +74,13 @@ cat rules/typescript.md >> ./CLAUDE.md
 - `apollo-lead-collector.md` - Apollo automation
 - `cold-outreach-strategist.md` - Outreach planning
 - `excel-sheets-generator.md` - Excel generation
+
+### `raw-insights/` - Session Learnings ⭐ NEW
+**Unstructured insights from coding sessions - organize weekly:**
+- `2025-10-06-frontend-routes-documentation.md` - Frontend route organization
+  - ROUTES.md pattern (complete route map)
+  - routes.ts constants (TypeScript)
+  - Industry standards & real examples
 
 ---
 
@@ -136,6 +145,54 @@ cp base/.gitignore ./.gitignore
 **Industry Standards:**
 - Keep a Changelog: https://keepachangelog.com/
 - Semantic Versioning: https://semver.org/
+
+---
+
+---
+
+## Latest Additions (2025-10-06)
+
+### 🔥 Universal Logging System
+**Location:** `snippets/logging/`
+
+Zero-config logger for any project:
+- **Python:** `from universal_logger import get_logger`
+- **FastAPI:** Auto-log every API request
+- **Next.js:** Frontend wrapper included
+- **Node.js/Express:** Copy-paste ready
+
+**Features:**
+- Daily log rotation (YYYY-MM-DD.log)
+- Separate error logs
+- JSON structured output
+- @auto_log decorator for performance
+- Works in modular + root projects
+
+**Quick start:**
+```bash
+# Copy logger
+cp snippets/logging/universal_logger.py your-project/
+
+# Use in Python
+from universal_logger import get_logger
+logger = get_logger(__name__)
+logger.info("Hello!", count=100)
+
+# Logs saved to: logs/2025-10-06.log
+```
+
+See: `snippets/logging/UNIVERSAL-LOGGER.md` for full docs
+
+### 📁 Frontend Routes Documentation
+**Location:** `raw-insights/2025-10-06-frontend-routes-documentation.md`
+
+Industry-standard pattern for organizing frontend routes:
+- `ROUTES.md` - Map of all pages/APIs
+- `routes.ts` - TypeScript constants
+- No more hardcoded URLs
+- Easy refactoring
+
+Perfect for Next.js, React, any SPA.
 
 ---
 

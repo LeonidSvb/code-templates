@@ -10,9 +10,33 @@
 **Goal:** Add more snippets and examples
 
 **Priority Tasks:**
-1. Add universal-logger.py to snippets/
-2. Add Supabase auth examples to snippets/
-3. Create more project-types examples
+1. ~~Add universal-logger.py to snippets/~~ ✅ Done
+2. Add frontend routes documentation pattern to raw-insights/ ✅ Done
+3. Add Supabase auth examples to snippets/
+4. Create more project-types examples
+
+---
+
+## [1.2.0] - 2025-10-06 - Universal Logger & Frontend Routes
+
+### Added
+- **`snippets/logging/universal_logger.py`** - Production-ready logging system
+  - Zero-config, daily rotation, JSON structured logs
+  - Works with Python, FastAPI, Node.js, Next.js
+  - Auto-creates `logs/YYYY-MM-DD.log` and `errors/YYYY-MM-DD.log`
+- **`snippets/logging/UNIVERSAL-LOGGER.md`** - Complete documentation
+  - 2 installation patterns: modular (multi-module projects) and root (simple projects)
+  - Usage examples: Python scripts, FastAPI, Next.js, Node.js/Express
+  - @auto_log decorator for performance tracking
+  - Command-line tools for viewing logs
+- **`raw-insights/2025-10-06-frontend-routes-documentation.md`** - Frontend organization pattern
+  - ROUTES.md template (complete route map)
+  - routes.ts template (TypeScript route constants)
+  - Industry standards and best practices
+  - Real examples from Cold Outreach Platform
+
+### Changed
+- Updated `snippets/logging/` to include working logger from production
 
 ---
 
