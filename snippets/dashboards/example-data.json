@@ -1,0 +1,122 @@
+{
+  "client": {
+    "name": "BookingBrain",
+    "projectType": "Database Analysis",
+    "date": "October 30, 2025",
+    "analyst": "Leonid Shvorob"
+  },
+  "stats": {
+    "tables": 78,
+    "records": "86 (sample)",
+    "size": "3GB (partial)",
+    "age": "20 years"
+  },
+  "findings": [
+    {
+      "title": "Voucher Management Crisis",
+      "priority": "critical",
+      "description": "£290k in voucher liability vs £67k revenue (430% ratio)",
+      "impact": "Potential £50-100k exposure",
+      "action": "Immediate audit required"
+    },
+    {
+      "title": "Manual Payment Processing",
+      "priority": "high",
+      "description": "37% of payments require manual entry",
+      "impact": "10-15 hours/week wasted",
+      "action": "Automate with webhooks"
+    },
+    {
+      "title": "Database Technology Obsolete",
+      "priority": "high",
+      "description": "MySQL 5.5 (2010) - no security updates since 2018",
+      "impact": "Security and performance risks",
+      "action": "Upgrade to MySQL 8.0"
+    }
+  ],
+  "charts": {
+    "paymentMethods": {
+      "labels": ["Bank Transfer", "Manual Entry", "Cheque", "PayPal", "Other"],
+      "data": [52.3, 37.2, 7.0, 2.3, 1.2],
+      "colors": ["#3b82f6", "#f59e0b", "#8b5cf6", "#10b981", "#d1d5db"]
+    },
+    "discountTypes": {
+      "labels": ["Fixed Amount", "Percentage", "Deposit Based"],
+      "data": [3529, 212, 477],
+      "colors": ["#10b981", "#3b82f6", "#f59e0b"]
+    },
+    "bookingStatus": {
+      "labels": ["Fully Paid", "Deposit Only", "Cancelled", "Other"],
+      "data": [49, 34, 0, 3],
+      "colors": ["#10b981", "#f59e0b", "#dc2626", "#d1d5db"]
+    },
+    "priorities": {
+      "labels": ["Critical Priority", "High Priority", "Medium Priority", "Low Priority"],
+      "data": [2, 5, 2, 1],
+      "colors": ["#dc2626", "#f59e0b", "#10b981", "#d1d5db"]
+    }
+  },
+  "topTables": [
+    {
+      "name": "booking_vouchers",
+      "priority": "critical",
+      "records": "4,220",
+      "issue": "£290k liability",
+      "action": "Audit unused vouchers"
+    },
+    {
+      "name": "archived_payment_summaries",
+      "priority": "critical",
+      "records": "86 (sample)",
+      "issue": "37% manual processing",
+      "action": "Automate payment updates"
+    },
+    {
+      "name": "archived_property_requests",
+      "priority": "high",
+      "records": "86 (sample)",
+      "issue": "Legacy structure",
+      "action": "Add indexes, optimize queries"
+    }
+  ],
+  "recommendations": [
+    {
+      "name": "MySQL 8.0 Upgrade",
+      "type": "recommended",
+      "pros": [
+        "Low risk – 95% compatible with 5.5",
+        "Team knows MySQL (20 years)",
+        "Quick migration (1-2 days)",
+        "Modern features (JSON, window functions)"
+      ],
+      "cons": [
+        "No built-in real-time features",
+        "No auto-generated API"
+      ],
+      "bestFor": "Conservative approach, proven technology"
+    }
+  ],
+  "roi": {
+    "savings": "£7.6k – £16.2k",
+    "description": "Projected Annual Savings (Conservative)",
+    "details": "From automation, optimization, and reduced manual work"
+  },
+  "cta": {
+    "title": "Discovery Phase Complete",
+    "text": "This analysis provides clear direction for modernization.",
+    "items": [
+      {
+        "title": "Immediate wins identified",
+        "description": "Voucher audit (£50-100k potential), payment automation (10-15 hrs/week saved)"
+      },
+      {
+        "title": "Clear technical path",
+        "description": "MySQL 8.0 upgrade recommended over risky Supabase migration"
+      },
+      {
+        "title": "ROI validated",
+        "description": "Conservative estimate £7.6k-16.2k annual savings"
+      }
+    ]
+  }
+}

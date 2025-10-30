@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookingBrain Database Analysis | Discovery Phase</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Helvetica, Arial, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        header {
+            padding: 60px 0 80px;
+            border-bottom: 1px solid #e6e6e6;
+            margin-bottom: 80px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+            padding-bottom: 16px;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #10b981 100%);
+            border-image-slice: 1;
+            display: inline-block;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #6b7280;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .subtitle:first-of-type {
+            color: #3b82f6;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+
+        .disclaimer {
+            background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+            border-left: 4px solid #3b82f6;
+            padding: 24px 28px;
+            margin-top: 48px;
+            border-radius: 4px;
+            border-right: 1px solid #e0e7ff;
+            border-top: 1px solid #e0e7ff;
+            border-bottom: 1px solid #e0e7ff;
+        }
+
+        .disclaimer-title {
+            font-weight: 600;
+            color: #1d4ed8;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .disclaimer p {
+            color: #4b5563;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .disclaimer ul {
+            margin: 16px 0 16px 20px;
+            color: #4b5563;
+        }
+
+        .disclaimer li {
+            margin-bottom: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1px;
+            background: #e6e6e6;
+            border: 1px solid #e6e6e6;
+            margin-bottom: 80px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            padding: 32px;
+            transition: background 0.2s;
+        }
+
+        .stat-card:hover {
+            background: #f9fafb;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #000000;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .stat-detail {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 32px;
+            letter-spacing: -0.01em;
+        }
+
+        .section-description {
+            color: #6b7280;
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 32px;
+            margin-bottom: 64px;
+        }
+
+        .chart-container {
+            background: #ffffff;
+            border: 1px solid #e6e6e6;
+            border-radius: 4px;
+            padding: 32px;
+        }
+
+        .chart-wrapper {
+            height: 280px;
+            margin-bottom: 24px;
+        }
+
+        .chart-insight {
+            padding: 16px;
+            background: #f9fafb;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .insight-label {
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 4px;
+        }
+
+        .insight-text {
+            color: #4b5563;
+        }
+
+        .finding-card {
+            border: 1px solid #e6e6e6;
+            padding: 32px;
+            margin-bottom: 24px;
+            border-radius: 4px;
+            transition: border-color 0.2s;
+        }
+
+        .finding-card:hover {
+            border-color: #000000;
+        }
+
+        .finding-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .finding-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .priority-badge {
+            padding: 4px 12px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .priority-critical {
+            background: #dc2626;
+            color: #ffffff;
+        }
+
+        .priority-high {
+            background: #f59e0b;
+            color: #ffffff;
+        }
+
+        .priority-medium {
+            background: #10b981;
+            color: #ffffff;
+        }
+
+        .finding-description {
+            color: #4b5563;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .optimization-box {
+            background: #f9fafb;
+            padding: 20px 24px;
+            border-radius: 4px;
+            border-left: 3px solid #000000;
+        }
+
+        .optimization-title {
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .optimization-box ul {
+            margin-left: 20px;
+            color: #4b5563;
+        }
+
+        .optimization-box li {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .metrics {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .metric-badge {
+            padding: 8px 16px;
+            background: #ffffff;
+            border: 1px solid #e6e6e6;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+        .metric-label {
+            color: #9ca3af;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .tech-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1px;
+            background: #e6e6e6;
+            border: 1px solid #e6e6e6;
+            margin-top: 32px;
+        }
+
+        .tech-card {
+            background: #ffffff;
+            padding: 32px;
+            position: relative;
+        }
+
+        .tech-card.recommended {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #ffffff;
+            border: 1px solid #3b82f6;
+        }
+
+        .tech-card.recommended .tech-name,
+        .tech-card.recommended .pro,
+        .tech-card.recommended .con {
+            color: #ffffff;
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #ffffff;
+            color: #2563eb;
+            padding: 4px 12px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .tech-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #000000;
+        }
+
+        .pros-cons {
+            margin-top: 16px;
+        }
+
+        .pro, .con {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            background: #f9fafb;
+            border-radius: 3px;
+            color: #4b5563;
+        }
+
+        .tech-card.recommended .pro,
+        .tech-card.recommended .con {
+            background: rgba(255,255,255,0.1);
+            color: #e5e7eb;
+        }
+
+        .pro::before {
+            content: '✓ ';
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .con::before {
+            content: '− ';
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .tech-footer {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e6e6e6;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .tech-card.recommended .tech-footer {
+            border-top-color: rgba(255,255,255,0.2);
+            color: #9ca3af;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 1px solid #e6e6e6;
+            background: #ffffff;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .filter-btn:hover {
+            border-color: #000000;
+            color: #000000;
+        }
+
+        .filter-btn.active {
+            background: #000000;
+            color: #ffffff;
+            border-color: #000000;
+        }
+
+        .timeline {
+            margin-top: 40px;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 32px;
+            margin-bottom: 48px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-marker {
+            font-weight: 600;
+            color: #000000;
+            font-size: 14px;
+            text-align: right;
+            padding-top: 4px;
+        }
+
+        .timeline-content {
+            background: #f9fafb;
+            padding: 24px 28px;
+            border-radius: 4px;
+        }
+
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 12px;
+        }
+
+        .timeline-details {
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .roi-box {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            padding: 64px 48px;
+            border-radius: 4px;
+            text-align: center;
+            margin: 80px 0;
+            border: 1px solid #10b981;
+        }
+
+        .roi-number {
+            font-size: 56px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .roi-label {
+            font-size: 18px;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .roi-description {
+            margin-top: 16px;
+            color: #d1fae5;
+            font-size: 15px;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 64px 48px;
+            border-radius: 4px;
+            text-align: center;
+            margin-top: 80px;
+            border: 2px solid #f59e0b;
+        }
+
+        .cta-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 32px;
+        }
+
+        .cta-text {
+            color: #78350f;
+            font-size: 16px;
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+
+        .cta-boxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1px;
+            background: #e6e6e6;
+            border: 1px solid #e6e6e6;
+            margin: 32px 0;
+        }
+
+        .cta-item {
+            background: #ffffff;
+            padding: 24px;
+            text-align: left;
+        }
+
+        .cta-item-title {
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .cta-item-text {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .cta-note {
+            color: #6b7280;
+            font-size: 15px;
+            margin-top: 32px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 0 40px;
+            border-top: 1px solid #e6e6e6;
+            margin-top: 80px;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        footer p {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 24px;
+            }
+            h1 {
+                font-size: 36px;
+            }
+            h2 {
+                font-size: 24px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            .tech-comparison {
+                grid-template-columns: 1fr;
+            }
+            .timeline-item {
+                grid-template-columns: 1fr;
+            }
+            .timeline-marker {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BookingBrain Database Analysis</h1>
+            <p class="subtitle">Discovery Phase Results</p>
+            <p class="subtitle">October 30, 2025 • Prepared by Leonid Shvorob</p>
+
+            <div class="disclaimer">
+                <div class="disclaimer-title">Note on Data Completeness</div>
+                <p>
+                    This analysis is based on <strong>3GB of database dump</strong> (partial dataset due to download interruption).
+                    The full database is estimated at 10-20GB. However, this sample is sufficient for Discovery Phase as it includes:
+                </p>
+                <ul>
+                    <li><strong>Complete schema structure</strong> – all 78 tables with full DDL</li>
+                    <li><strong>Representative data</strong> – 86 archived bookings spanning 5 years</li>
+                    <li><strong>Critical insights</strong> – voucher issues, manual work, tech debt</li>
+                    <li><strong>Clear direction</strong> – sufficient to determine optimization strategy</li>
+                </ul>
+                <p>
+                    <strong>Bottom line:</strong> The patterns identified here (manual payments, voucher management, outdated infrastructure)
+                    are structural issues that exist regardless of data volume. Full database analysis would show larger numbers, but the same strategic recommendations apply.
+                </p>
+            </div>
+        </header>
+
+        <!-- Key Metrics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">78</div>
+                <div class="stat-label">Database Tables</div>
+                <div class="stat-detail">Analyzed structure and relationships</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-number">£67,423</div>
+                <div class="stat-label">Revenue (Sample)</div>
+                <div class="stat-detail">86 bookings | Partial data</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-number">37%</div>
+                <div class="stat-label">Manual Work</div>
+                <div class="stat-detail">Payments entered by hand</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-number">430%</div>
+                <div class="stat-label">Discount Ratio</div>
+                <div class="stat-detail">£290k vouchers vs £67k revenue</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-number">2020-2025</div>
+                <div class="stat-label">Data Period</div>
+                <div class="stat-detail">Growth: 16 → 27 bookings/year</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-number">MySQL 5.5</div>
+                <div class="stat-label">Current Stack</div>
+                <div class="stat-detail">Released 2010 | No support since 2018</div>
+            </div>
+        </div>
+
+        <!-- ROI Projection -->
+        <div class="roi-box">
+            <div class="roi-number">£7.6k – £16.2k</div>
+            <div class="roi-label">Projected Annual Savings (Conservative)</div>
+            <p class="roi-description">From automation, optimization, and reduced manual work</p>
+        </div>
+
+        <!-- Data Visualizations -->
+        <div class="section">
+            <h2>Data Insights</h2>
+            <p class="section-description">Visual representation of patterns identified in the 3GB sample dataset</p>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <canvas id="paymentMethodsChart"></canvas>
+                    </div>
+                    <div class="chart-insight">
+                        <div class="insight-label">Issue Identified</div>
+                        <div class="insight-text">37% manual entry = operational inefficiency and error risk</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <canvas id="discountTypesChart"></canvas>
+                    </div>
+                    <div class="chart-insight">
+                        <div class="insight-label">Pattern</div>
+                        <div class="insight-text">Fixed discounts dominate (83.6%) – ROI analysis recommended</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <canvas id="bookingStatusChart"></canvas>
+                    </div>
+                    <div class="chart-insight">
+                        <div class="insight-label">Positive Signal</div>
+                        <div class="insight-text">57% fully paid, 0% cancellations – strong conversion</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <canvas id="priorityChart"></canvas>
+                    </div>
+                    <div class="chart-insight">
+                        <div class="insight-label">Focus Area</div>
+                        <div class="insight-text">7 high-priority optimization targets identified</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Critical Findings -->
+        <div class="section">
+            <h2>Critical Findings</h2>
+
+            <div class="finding-card">
+                <div class="finding-header">
+                    <div class="finding-title">Voucher Management Crisis</div>
+                    <span class="priority-badge priority-critical">CRITICAL</span>
+                </div>
+                <div class="finding-description">
+                    4,220 vouchers with £290,152 in discounts vs £67,423 revenue = 430% ratio
+                </div>
+                <div class="optimization-box">
+                    <div class="optimization-title">Immediate Action Required</div>
+                    <ul>
+                        <li>Audit unused/expired vouchers (potentially £50-100k cleanup)</li>
+                        <li>Implement expiration enforcement</li>
+                        <li>Add voucher usage tracking</li>
+                    </ul>
+                </div>
+                <div class="metrics">
+                    <div class="metric-badge">
+                        <div class="metric-label">Potential Savings</div>
+                        <div class="metric-value">£50k – £100k</div>
+                    </div>
+                    <div class="metric-badge">
+                        <div class="metric-label">Time to Fix</div>
+                        <div class="metric-value">2-3 hours</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding-card">
+                <div class="finding-header">
+                    <div class="finding-title">Manual Payment Processing</div>
+                    <span class="priority-badge priority-high">HIGH PRIORITY</span>
+                </div>
+                <div class="finding-description">
+                    37% of payments marked as "manual" – someone is entering data by hand
+                </div>
+                <div class="optimization-box">
+                    <div class="optimization-title">Solution: API Integration</div>
+                    <ul>
+                        <li>Stripe/PayPal webhooks for auto-updates</li>
+                        <li>Eliminate human errors</li>
+                        <li>Real-time payment confirmations</li>
+                    </ul>
+                </div>
+                <div class="metrics">
+                    <div class="metric-badge">
+                        <div class="metric-label">Time Saved</div>
+                        <div class="metric-value">10-15 hours/week</div>
+                    </div>
+                    <div class="metric-badge">
+                        <div class="metric-label">Implementation</div>
+                        <div class="metric-value">3-5 days</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding-card">
+                <div class="finding-header">
+                    <div class="finding-title">Database Technology Obsolete</div>
+                    <span class="priority-badge priority-high">HIGH PRIORITY</span>
+                </div>
+                <div class="finding-description">
+                    MySQL 5.5 from 2010, using MyISAM engine (no transactions)
+                </div>
+                <div class="optimization-box">
+                    <div class="optimization-title">Upgrade Path</div>
+                    <ul>
+                        <li>MySQL 8.0 upgrade (recommended)</li>
+                        <li>Convert MyISAM → InnoDB</li>
+                        <li>Add modern indexes</li>
+                    </ul>
+                </div>
+                <div class="metrics">
+                    <div class="metric-badge">
+                        <div class="metric-label">Performance Gain</div>
+                        <div class="metric-value">+50-100%</div>
+                    </div>
+                    <div class="metric-badge">
+                        <div class="metric-label">Migration Time</div>
+                        <div class="metric-value">1-2 days</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Comparison -->
+        <div class="section">
+            <h2>Technology Comparison</h2>
+            <p class="section-description">Based on your 20-year business with ~100 properties</p>
+
+            <div class="tech-comparison">
+                <div class="tech-card recommended">
+                    <span class="recommended-badge">RECOMMENDED</span>
+                    <div class="tech-name">MySQL 8.0 Upgrade</div>
+                    <div class="pros-cons">
+                        <div class="pro">Low risk – 95% compatible with 5.5</div>
+                        <div class="pro">Team knows MySQL (20 years)</div>
+                        <div class="pro">Quick migration (1-2 days)</div>
+                        <div class="pro">Modern features (JSON, window functions)</div>
+                        <div class="con">No built-in real-time features</div>
+                        <div class="con">No auto-generated API</div>
+                    </div>
+                    <div class="tech-footer">
+                        <strong>Best for:</strong> Conservative approach, proven stability
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <div class="tech-name">PostgreSQL</div>
+                    <div class="pros-cons">
+                        <div class="pro">More powerful SQL features</div>
+                        <div class="pro">Better for complex queries</div>
+                        <div class="pro">Industry standard</div>
+                        <div class="con">2-3 weeks migration time</div>
+                        <div class="con">Team retraining needed</div>
+                        <div class="con">Migration risks with 20 years of logic</div>
+                    </div>
+                    <div class="tech-footer">
+                        <strong>Best for:</strong> Long-term modernization (6-12 months)
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <div class="tech-name">Supabase</div>
+                    <div class="pros-cons">
+                        <div class="pro">Real-time features built-in</div>
+                        <div class="pro">Auto-generated API</div>
+                        <div class="con">Vendor lock-in risk</div>
+                        <div class="con">Expensive at scale</div>
+                        <div class="con">Hard to migrate 20 years of custom logic</div>
+                        <div class="con">Less control over infrastructure</div>
+                    </div>
+                    <div class="tech-footer">
+                        <strong>Best for:</strong> New startups, not 20-year businesses
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Tables -->
+        <div class="section">
+            <h2>Top 10 Tables: Optimization Opportunities</h2>
+
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterTables('all')">All Tables</button>
+                <button class="filter-btn" onclick="filterTables('critical')">Critical Priority</button>
+                <button class="filter-btn" onclick="filterTables('high')">High Priority</button>
+                <button class="filter-btn" onclick="filterTables('medium')">Medium Priority</button>
+            </div>
+
+            <div id="tableList">
+                <div class="finding-card" data-priority="critical">
+                    <div class="finding-header">
+                        <div class="finding-title">booking_vouchers</div>
+                        <span class="priority-badge priority-critical">CRITICAL</span>
+                    </div>
+                    <div class="finding-description">
+                        19 fields | 4,220 records | £290k in voucher value
+                    </div>
+                    <div class="optimization-box">
+                        <div class="optimization-title">Optimization Opportunities</div>
+                        <ul>
+                            <li>Add index on expiry_date (query speedup)</li>
+                            <li>Cleanup script for expired vouchers</li>
+                            <li>Auto-expiration cron job</li>
+                            <li>Usage tracking dashboard</li>
+                        </ul>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric-badge">
+                            <div class="metric-label">Financial Impact</div>
+                            <div class="metric-value">£50k-100k cleanup</div>
+                        </div>
+                        <div class="metric-badge">
+                            <div class="metric-label">Dev Time</div>
+                            <div class="metric-value">4-6 hours</div>
+                        </div>
+                        <div class="metric-badge">
+                            <div class="metric-label">Difficulty</div>
+                            <div class="metric-value">Easy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="finding-card" data-priority="critical">
+                    <div class="finding-header">
+                        <div class="finding-title">archived_payment_summaries</div>
+                        <span class="priority-badge priority-critical">CRITICAL</span>
+                    </div>
+                    <div class="finding-description">
+                        31 fields | 86 records (partial data) | Core revenue tracking
+                    </div>
+                    <div class="optimization-box">
+                        <div class="optimization-title">Optimization Opportunities</div>
+                        <ul>
+                            <li>Add indexes on status, created, property_request_id</li>
+                            <li>Webhook integration to eliminate 37% manual entries</li>
+                            <li>Automated reconciliation with payment providers</li>
+                            <li>Real-time status updates via API</li>
+                        </ul>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric-badge">
+                            <div class="metric-label">Time Saved</div>
+                            <div class="metric-value">10-15 hrs/week</div>
+                        </div>
+                        <div class="metric-badge">
+                            <div class="metric-label">Dev Time</div>
+                            <div class="metric-value">3-5 days</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="finding-card" data-priority="high">
+                    <div class="finding-header">
+                        <div class="finding-title">archived_property_requests</div>
+                        <span class="priority-badge priority-high">HIGH</span>
+                    </div>
+                    <div class="finding-description">
+                        69 fields | Core booking records | Cancellation tracking
+                    </div>
+                    <div class="optimization-box">
+                        <div class="optimization-title">Optimization Opportunities</div>
+                        <ul>
+                            <li>Add indexes on chekin_date, checkout_date, property_id</li>
+                            <li>Partition by year for faster queries</li>
+                            <li>Cancellation analytics dashboard</li>
+                            <li>ML prediction for high-risk bookings</li>
+                        </ul>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric-badge">
+                            <div class="metric-label">Query Speed</div>
+                            <div class="metric-value">+80-90%</div>
+                        </div>
+                        <div class="metric-badge">
+                            <div class="metric-label">Dev Time</div>
+                            <div class="metric-value">2-3 hours</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="finding-card" data-priority="high">
+                    <div class="finding-header">
+                        <div class="finding-title">custom_nightly_prices</div>
+                        <span class="priority-badge priority-high">HIGH</span>
+                    </div>
+                    <div class="finding-description">
+                        8 fields | Dynamic pricing data | Revenue optimization potential
+                    </div>
+                    <div class="optimization-box">
+                        <div class="optimization-title">Optimization Opportunities</div>
+                        <ul>
+                            <li>ML price optimization based on demand</li>
+                            <li>Competitor price tracking integration</li>
+                            <li>Seasonality analysis for automatic adjustments</li>
+                            <li>A/B testing framework for pricing</li>
+                        </ul>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric-badge">
+                            <div class="metric-label">Revenue Impact</div>
+                            <div class="metric-value">+10-15%</div>
+                        </div>
+                        <div class="metric-badge">
+                            <div class="metric-label">Dev Time</div>
+                            <div class="metric-value">2-3 weeks</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="finding-card" data-priority="high">
+                    <div class="finding-header">
+                        <div class="finding-title">discounts</div>
+                        <span class="priority-badge priority-high">HIGH</span>
+                    </div>
+                    <div class="finding-description">
+                        8 fields | Multiple discount types | Profitability optimization
+                    </div>
+                    <div class="optimization-box">
+                        <div class="optimization-title">Optimization Opportunities</div>
+                        <ul>
+                            <li>ROI analysis per discount type</li>
+                            <li>Eliminate low-performing discount strategies</li>
+                            <li>A/B test different discount models</li>
+                            <li>Automated discount recommendations</li>
+                        </ul>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric-badge">
+                            <div class="metric-label">Profit Impact</div>
+                            <div class="metric-value">+5-10%</div>
+                        </div>
+                        <div class="metric-badge">
+                            <div class="metric-label">Analysis Time</div>
+                            <div class="metric-value">1-2 days</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="finding-card" data-priority="medium">
+                    <div class="finding-header">
+                        <div class="finding-title">ical_availbility_days</div>
+                        <span class="priority-badge priority-medium">MEDIUM</span>
+                    </div>
+                    <div class="finding-description">
+                        iCal sync data | Integration bottleneck | Slow polling system
+                    </div>
+                    <div class="optimization-box">
+                        <div class="optimization-title">Optimization Opportunities</div>
+                        <ul>
+                            <li>Replace iCal with Channel Manager APIs (faster)</li>
+                            <li>Real-time sync instead of polling</li>
+                            <li>Reduce sync latency from hours to seconds</li>
+                            <li>Archive old availability data (cleanup)</li>
+                        </ul>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric-badge">
+                            <div class="metric-label">Sync Speed</div>
+                            <div class="metric-value">Hours → Seconds</div>
+                        </div>
+                        <div class="metric-badge">
+                            <div class="metric-label">Dev Time</div>
+                            <div class="metric-value">1-2 weeks</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="finding-card" data-priority="medium">
+                    <div class="finding-header">
+                        <div class="finding-title">eat_pages</div>
+                        <span class="priority-badge priority-medium">MEDIUM</span>
+                    </div>
+                    <div class="finding-description">
+                        57 fields | Restaurant directory | Monetization potential
+                    </div>
+                    <div class="optimization-box">
+                        <div class="optimization-title">Monetization Opportunities</div>
+                        <ul>
+                            <li>Premium listings for restaurants (£50-100/month)</li>
+                            <li>Featured placement on booking confirmations</li>
+                            <li>Affiliate program with delivery services</li>
+                            <li>Table reservation integration (commission)</li>
+                        </ul>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric-badge">
+                            <div class="metric-label">New Revenue</div>
+                            <div class="metric-value">£5-10k/year</div>
+                        </div>
+                        <div class="metric-badge">
+                            <div class="metric-label">Setup Time</div>
+                            <div class="metric-value">1-2 weeks</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Implementation Timeline -->
+        <div class="section">
+            <h2>Recommended Implementation Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">WEEK 1</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Quick Wins</div>
+                        <div class="timeline-details">
+                            <strong>Focus:</strong> Immediate impact, low risk<br>
+                            <strong>Tasks:</strong> Voucher audit, database indexes, performance benchmarking<br>
+                            <strong>Expected outcome:</strong> £50k-100k potential savings identified, +80% query speed
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">WEEK 2-3</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Payment Automation</div>
+                        <div class="timeline-details">
+                            <strong>Focus:</strong> Eliminate 37% manual work<br>
+                            <strong>Tasks:</strong> Stripe/PayPal webhook integration, automated confirmations<br>
+                            <strong>Expected outcome:</strong> -10-15 hours/week saved, zero manual errors
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">WEEK 4-5</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">MySQL 8.0 Upgrade</div>
+                        <div class="timeline-details">
+                            <strong>Focus:</strong> Infrastructure modernization<br>
+                            <strong>Tasks:</strong> MySQL upgrade, MyISAM→InnoDB conversion, monitoring setup<br>
+                            <strong>Expected outcome:</strong> +50-100% performance, modern features, ACID transactions
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">MONTH 2-3</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Advanced Features</div>
+                        <div class="timeline-details">
+                            <strong>Focus:</strong> Revenue optimization<br>
+                            <strong>Tasks:</strong> Dynamic pricing ML, email automation, discount optimization<br>
+                            <strong>Expected outcome:</strong> +10-15% revenue, +15-20% retention
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-box">
+            <div class="cta-title">Discovery Phase Complete</div>
+            <p class="cta-text">
+                This analysis provides clear direction for modernization. Key findings:
+            </p>
+            <div class="cta-boxes">
+                <div class="cta-item">
+                    <div class="cta-item-title">Immediate wins identified</div>
+                    <div class="cta-item-text">Voucher audit (£50-100k potential), payment automation (10-15 hrs/week saved)</div>
+                </div>
+                <div class="cta-item">
+                    <div class="cta-item-title">Clear technical path</div>
+                    <div class="cta-item-text">MySQL 8.0 upgrade recommended over risky Supabase migration</div>
+                </div>
+                <div class="cta-item">
+                    <div class="cta-item-title">ROI validated</div>
+                    <div class="cta-item-text">Conservative estimate £7.6k-16.2k annual savings</div>
+                </div>
+            </div>
+            <p class="cta-note">
+                Ready to discuss implementation? We're already connected on WhatsApp.
+            </p>
+        </div>
+
+        <footer>
+            <p>Leonid Shvorob | AI Automation Specialist</p>
+            <p>Discovery Phase Analysis — BookingBrain Platform</p>
+        </footer>
+    </div>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <script>
+        // Chart.js default colors
+        Chart.defaults.color = '#6b7280';
+        Chart.defaults.borderColor = '#e6e6e6';
+        Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Helvetica, Arial, sans-serif';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart 1: Payment Methods
+            const paymentCtx = document.getElementById('paymentMethodsChart');
+            if (paymentCtx) {
+                new Chart(paymentCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Bank Transfer', 'Manual Entry', 'Cheque', 'PayPal', 'Other'],
+                        datasets: [{
+                            data: [52.3, 37.2, 7.0, 2.3, 1.2],
+                            backgroundColor: ['#3b82f6', '#f59e0b', '#8b5cf6', '#10b981', '#d1d5db'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 16,
+                                    font: { size: 12 },
+                                    color: '#4b5563'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Payment Methods (from sample data)',
+                                font: { size: 14, weight: '600' },
+                                color: '#000000',
+                                padding: { bottom: 20 }
+                            },
+                            tooltip: {
+                                backgroundColor: '#000000',
+                                titleColor: '#ffffff',
+                                bodyColor: '#e5e7eb',
+                                padding: 12,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': ' + context.parsed + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Chart 2: Discount Types
+            const discountCtx = document.getElementById('discountTypesChart');
+            if (discountCtx) {
+                new Chart(discountCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Fixed Amount', 'Percentage', 'Deposit Based'],
+                        datasets: [{
+                            label: 'Number of Vouchers',
+                            data: [3529, 212, 477],
+                            backgroundColor: ['#10b981', '#3b82f6', '#f59e0b'],
+                            borderWidth: 0,
+                            borderRadius: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: { font: { size: 11 }, color: '#6b7280' },
+                                grid: { color: '#f3f4f6' }
+                            },
+                            x: {
+                                ticks: { font: { size: 11 }, color: '#6b7280' },
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            title: {
+                                display: true,
+                                text: 'Voucher Types Distribution (4,220 total)',
+                                font: { size: 14, weight: '600' },
+                                color: '#000000',
+                                padding: { bottom: 20 }
+                            },
+                            tooltip: {
+                                backgroundColor: '#000000',
+                                titleColor: '#ffffff',
+                                bodyColor: '#e5e7eb',
+                                padding: 12
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Chart 3: Booking Status
+            const statusCtx = document.getElementById('bookingStatusChart');
+            if (statusCtx) {
+                new Chart(statusCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Fully Paid', 'Deposit Only', 'Cancelled', 'Other'],
+                        datasets: [{
+                            data: [49, 34, 0, 3],
+                            backgroundColor: ['#10b981', '#f59e0b', '#dc2626', '#d1d5db'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 16,
+                                    font: { size: 12 },
+                                    color: '#4b5563'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Booking Payment Status (86 bookings in sample)',
+                                font: { size: 14, weight: '600' },
+                                color: '#000000',
+                                padding: { bottom: 20 }
+                            },
+                            tooltip: {
+                                backgroundColor: '#000000',
+                                titleColor: '#ffffff',
+                                bodyColor: '#e5e7eb',
+                                padding: 12
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Chart 4: Priority Distribution
+            const priorityCtx = document.getElementById('priorityChart');
+            if (priorityCtx) {
+                new Chart(priorityCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Critical Priority', 'High Priority', 'Medium Priority', 'Low Priority'],
+                        datasets: [{
+                            data: [2, 5, 2, 1],
+                            backgroundColor: ['#dc2626', '#f59e0b', '#10b981', '#d1d5db'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 16,
+                                    font: { size: 12 },
+                                    color: '#4b5563'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Top 10 Tables by Priority',
+                                font: { size: 14, weight: '600' },
+                                color: '#000000',
+                                padding: { bottom: 20 }
+                            },
+                            tooltip: {
+                                backgroundColor: '#000000',
+                                titleColor: '#ffffff',
+                                bodyColor: '#e5e7eb',
+                                padding: 12
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+        function filterTables(priority) {
+            const rows = document.querySelectorAll('#tableList .finding-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            rows.forEach(row => {
+                if (priority === 'all') {
+                    row.style.display = 'block';
+                } else {
+                    if (row.getAttribute('data-priority') === priority) {
+                        row.style.display = 'block';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
